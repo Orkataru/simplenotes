@@ -94,7 +94,8 @@ public class NotesAdapter extends ListAdapter<Note, NotesAdapter.NoteViewHolder>
 
             @Override
             public boolean areContentsTheSame(@NonNull Note oldItem, @NonNull Note newItem) {
-                return oldItem.getContent().equals(newItem.getContent());
+                return oldItem.getContent().equals(newItem.getContent()) &&
+                       oldItem.getModifiedAt() == newItem.getModifiedAt();
             }
         });
     }
@@ -110,12 +111,8 @@ public class NotesAdapter extends ListAdapter<Note, NotesAdapter.NoteViewHolder>
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
         Note note = getItem(position);
-        holder.textViewContent.setText(note.getContent());
         
-        // Set background based on selection state
-        holder.itemView.setBackgroundResource(selectedNoteIds.contains(note.getId()) ? 
-            R.drawable.selected_note_background : 
-            android.R.color.transparent);
+        holder.bind(note, selectedNoteIds.contains(note.getId()));
 
         holder.itemView.setOnClickListener(v -> {
             if (selectionMode) {
@@ -138,11 +135,39 @@ public class NotesAdapter extends ListAdapter<Note, NotesAdapter.NoteViewHolder>
     }
 
     static class NoteViewHolder extends RecyclerView.ViewHolder {
+        private TextView textViewTitle;
         private TextView textViewContent;
+        private TextView textViewTimestamp;
+        private View itemView;
 
         NoteViewHolder(View itemView) {
             super(itemView);
+            this.itemView = itemView;
+            textViewTitle = itemView.findViewById(R.id.text_view_title);
             textViewContent = itemView.findViewById(R.id.text_view_content);
+            textViewTimestamp = itemView.findViewById(R.id.text_view_timestamp);
+        }
+
+        void bind(Note note, boolean isSelected) {
+            if (note.getTitle() != null && !note.getTitle().isEmpty()) {
+                textViewTitle.setVisibility(View.VISIBLE);
+                textViewTitle.setText(note.getTitle());
+            } else {
+                textViewTitle.setVisibility(View.GONE);
+            }
+            textViewContent.setText(note.getContent());
+            
+            // Format and set the timestamp
+            String timestamp = formatTimestamp(note.getModifiedAt());
+            textViewTimestamp.setText(timestamp);
+
+            itemView.setBackgroundResource(isSelected ? 
+                android.R.color.darker_gray : android.R.color.transparent);
+        }
+
+        private String formatTimestamp(long timestamp) {
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMM d, HH:mm", java.util.Locale.getDefault());
+            return sdf.format(new java.util.Date(timestamp));
         }
     }
 } 

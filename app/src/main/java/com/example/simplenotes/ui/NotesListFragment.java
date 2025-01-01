@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import com.example.simplenotes.R;
 import com.example.simplenotes.data.entity.Note;
 import com.example.simplenotes.viewmodel.NoteViewModel;
@@ -43,6 +44,12 @@ public class NotesListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new NotesAdapter();
         recyclerView.setAdapter(adapter);
+
+        // Add divider between items
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.note_divider, null));
+        recyclerView.addItemDecoration(dividerItemDecoration);
 
         // Set click listener for notes
         adapter.setOnNoteClickListener(note -> {

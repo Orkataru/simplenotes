@@ -19,6 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class NoteEditorFragment extends Fragment {
     private static final String TAG = "NoteEditorFragment";
     private NoteViewModel noteViewModel;
+    private EditText titleEditText;
     private EditText noteEditText;
     private long noteId = -1;
 
@@ -35,6 +36,7 @@ public class NoteEditorFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_note_editor, container, false);
         
+        titleEditText = view.findViewById(R.id.edit_text_title);
         noteEditText = view.findViewById(R.id.edit_text_note);
         FloatingActionButton fabSave = view.findViewById(R.id.fab_save_note);
         
@@ -44,22 +46,27 @@ public class NoteEditorFragment extends Fragment {
             // Edit existing note
             noteViewModel.getNoteById(noteId).observe(getViewLifecycleOwner(), note -> {
                 if (note != null) {
+                    if (note.getTitle() != null) {
+                        titleEditText.setText(note.getTitle());
+                    }
                     noteEditText.setText(note.getContent());
                 }
             });
         }
 
         fabSave.setOnClickListener(v -> {
+            String title = titleEditText.getText().toString().trim();
             String content = noteEditText.getText().toString().trim();
+            
             if (!content.isEmpty()) {
                 if (noteId == -1) {
                     // Create new note
-                    Note newNote = new Note(content);
+                    Note newNote = new Note(title.isEmpty() ? null : title, content);
                     noteViewModel.insert(newNote);
                     Log.d(TAG, "New note created");
                 } else {
                     // Update existing note
-                    Note updatedNote = new Note(content);
+                    Note updatedNote = new Note(title.isEmpty() ? null : title, content);
                     updatedNote.setId(noteId);
                     noteViewModel.update(updatedNote);
                     Log.d(TAG, "Note updated, ID: " + noteId);
