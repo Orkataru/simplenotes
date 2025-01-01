@@ -4,9 +4,9 @@ A lightweight, secure Android note-taking application that allows users to creat
 
 
 <div style="display: flex; justify-content: space-around;">
-  <img src="https://github.com/user-attachments/assets/9d5d83fd-375d-4b17-bea0-4eb485c73bf9" alt="Screenshot 1" width="300"/>
-  <img src="https://github.com/user-attachments/assets/edcd3308-b049-455f-a8a8-3d99168fb662" alt="Screenshot 2" width="300"/>
-  <img src="https://github.com/user-attachments/assets/5d571eaa-6763-44b7-922b-54cb41949d4f" alt="Screenshot 3" width="300"/>
+  <img src="https://github.com/user-attachments/assets/9d5d83fd-375d-4b17-bea0-4eb485c73bf9" alt="Screenshot 1" width="250"/>
+  <img src="https://github.com/user-attachments/assets/edcd3308-b049-455f-a8a8-3d99168fb662" alt="Screenshot 2" width="250"/>
+  <img src="https://github.com/user-attachments/assets/5d571eaa-6763-44b7-922b-54cb41949d4f" alt="Screenshot 3" width="250"/>
 </div>
 
 
