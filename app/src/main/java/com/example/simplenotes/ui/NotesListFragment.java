@@ -176,6 +176,11 @@ public class NotesListFragment extends Fragment {
         builder.setView(searchView);
         AlertDialog dialog = builder.create();
         
+        // Handle dialog dismissal (clicking outside or back button)
+        dialog.setOnDismissListener(dialogInterface -> {
+            adapter.submitList(new ArrayList<>(allNotes));
+        });
+        
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
