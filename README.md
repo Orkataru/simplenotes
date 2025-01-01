@@ -32,7 +32,7 @@ A lightweight, secure Android note-taking application that allows users to creat
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/simple-notes-app.git
+   git clone https://github.com/Orkataru/simplenotes.git
    ```
 
 2. Open the project in Android Studio
