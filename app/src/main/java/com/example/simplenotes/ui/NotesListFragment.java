@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -22,6 +23,8 @@ import com.example.simplenotes.data.entity.Note;
 import com.example.simplenotes.viewmodel.NoteViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 
 public class NotesListFragment extends Fragment {
     private static final String TAG = "NotesListFragment";
@@ -29,6 +32,7 @@ public class NotesListFragment extends Fragment {
     private RecyclerView recyclerView;
     private NotesAdapter adapter;
     private MenuItem deleteMenuItem;
+    private List<Note> allNotes;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,8 +96,12 @@ public class NotesListFragment extends Fragment {
             }
         });
 
+        FloatingActionButton fabSearch = view.findViewById(R.id.fab_search);
+        fabSearch.setOnClickListener(v -> showSearchDialog());
+
         noteViewModel = new ViewModelProvider(this).get(NoteViewModel.class);
         noteViewModel.getAllNotes().observe(getViewLifecycleOwner(), notes -> {
+            allNotes = notes;
             adapter.submitList(notes);
             if (adapter.isInSelectionMode() && adapter.getSelectedNotes().isEmpty()) {
                 exitSelectionMode();
@@ -157,5 +165,61 @@ public class NotesListFragment extends Fragment {
                 activity.getSupportActionBar().setTitle(R.string.app_name);
             }
         }
+    }
+
+    private void showSearchDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        SearchView searchView = new SearchView(getContext());
+        searchView.setIconified(false);
+        searchView.setQueryHint("Search notes...");
+        
+        builder.setView(searchView);
+        AlertDialog dialog = builder.create();
+        
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filterNotes(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterNotes(newText);
+                return true;
+            }
+        });
+
+        searchView.setOnCloseListener(() -> {
+            dialog.dismiss();
+            return true;
+        });
+        
+        dialog.show();
+    }
+
+    private void filterNotes(String query) {
+        if (allNotes == null) {
+            return;
+        }
+
+        List<Note> notesToShow;
+        if (query == null || query.isEmpty()) {
+            notesToShow = new ArrayList<>(allNotes);
+        } else {
+            String lowercaseQuery = query.toLowerCase();
+            notesToShow = new ArrayList<>();
+            
+            for (Note note : allNotes) {
+                String title = note.getTitle() != null ? note.getTitle().toLowerCase() : "";
+                String content = note.getContent() != null ? note.getContent().toLowerCase() : "";
+                
+                if (title.contains(lowercaseQuery) || content.contains(lowercaseQuery)) {
+                    notesToShow.add(note);
+                }
+            }
+        }
+        
+        adapter.submitList(new ArrayList<>(notesToShow));
     }
 } 
