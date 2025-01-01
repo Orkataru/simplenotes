@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/notesListFragment">
+
+    <fragment
+        android:id="@+id/notesListFragment"
+        android:name="com.example.simplenotes.ui.NotesListFragment"
+        android:label="Notes">
+        <action
+            android:id="@+id/action_list_to_editor"
+            app:destination="@id/noteEditorFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/noteEditorFragment"
+        android:name="com.example.simplenotes.ui.NoteEditorFragment"
+        android:label="Edit Note">
+        <argument
+            android:name="noteId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
+</navigation> 

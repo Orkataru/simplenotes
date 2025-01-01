@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Simple Notes</string>
+    <string name="delete">Delete</string>
+    <string name="delete_confirmation_title">Delete Notes</string>
+    <string name="delete_confirmation_message">Are you sure you want to delete these notes?</string>
+    <string name="select_notes">Select Notes</string>
+</resources> 
