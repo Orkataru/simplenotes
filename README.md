@@ -2,6 +2,14 @@
 
 A lightweight, secure Android note-taking application that allows users to create and manage notes directly on their device.
 
+
+![image](https://github.com/user-attachments/assets/8de57a64-906c-427e-8f7f-b981eacdb11c)
+
+![image](https://github.com/user-attachments/assets/edcd3308-b049-455f-a8a8-3d99168fb662)
+
+![image](https://github.com/user-attachments/assets/5d571eaa-6763-44b7-922b-54cb41949d4f)
+
+
 ## Features
 
 - 📝 Clean, distraction-free note taking
